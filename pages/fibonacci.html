@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fibonacci Spiral</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="fibonacciCanvas"></canvas>
+
+    <script>
+        // Set up the canvas
+        const canvas = document.getElementById('fibonacciCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Set canvas size to the window size
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Fibonacci variables
+        let a = 1;
+        let b = 1;
+
+        // Function to draw the Fibonacci spiral
+        function drawFibonacciSpiral() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            let x = 0;
+            let y = 0;
+            let angle = 0;
+
+            for (let i = 0; i < 100; i++) {
+                const next = a + b;
+                a = b;
+                b = next;
+
+                x += Math.cos(angle) * next;
+                y += Math.sin(angle) * next;
+
+                angle += Math.PI / 2;
+
+                ctx.beginPath();
+                ctx.arc(canvas.width / 2 + x, canvas.height / 2 + y, next, 0, 2 * Math.PI);
+                ctx.stroke();
+            }
+
+            // Update the angle for the next frame
+            angle += 0.01;
+
+            // Request the next animation frame
+            requestAnimationFrame(drawFibonacciSpiral);
+        }
+
+        // Call the drawFibonacciSpiral function to start the animation
+        drawFibonacciSpiral();
+
+        // Update canvas size when the window is resized
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
